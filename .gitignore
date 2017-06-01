@@ -1,0 +1,5 @@
+# Vagrant
+.vagrant/
+# Librarian-Puppet managed directories
+environments/dev/modules/
+environments/dev/.*
