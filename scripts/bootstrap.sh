@@ -4,10 +4,20 @@ set -vx
 # Directory in which librarian-puppet should manage its modules directory
 PUPPET_DIR=$1
 
+# Puppet Configuration file
+cp /vagrant/environments/puppet.conf /etc/puppetlabs/puppet/
+ 
+RPM_DIR=/vagrant/scripts/
+
 echo 'Installing git...'
-yum install --assumeyes git > /dev/null
+if [[ `whereis git | cut -s -f2 -d' '` = ''  ]]; then
+  yum install --assumeyes $RPM_DIR/git-1.8.3.1-6.el7_2.1.x86_64.rpm > /dev/null
+fi
+
 echo 'Installing ruby gems...'
-yum install --assumeyes gem > /dev/null
+if [[ `whereis gem | cut -s -f2 -d' '` = ''  ]]; then
+  yum install --assumeyes $RPM_DIR/rubygems-2.0.14.1-29.el7.noarch.rpm > /dev/null
+fi
 
 echo 'Installing librarian-puppet...'
 if [ `gem query --local | grep librarian-puppet | wc -l` -eq 0 ]; then
